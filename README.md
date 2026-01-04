@@ -34,3 +34,8 @@ Step 2403; Wins: 94.34%  Ties: 5.66%  Losses: 0.00%
 2502it [00:15, 161.33it/s]
 Step 2502: Wins: 94.14%  Ties: 5.86%  Losses: 0.00%
 ```
+
+If you play this model against itself, it will produce a game with perfect play
+like this:
+
+![Tic-Tac-Toe with perfect play](perfect_play.svg)
