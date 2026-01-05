@@ -9,7 +9,7 @@ so.
 To set it up and run the script, run the following:
 
 ```sh
-git clone https://github.com/joe-antognini/jax-tic-tac-toe.git
+git clone https://github.com/charbull/jax-tic-tac-toe.git
 cd jax-tic-tac-toe
 python -m venv venv
 source venv/bin/activate
