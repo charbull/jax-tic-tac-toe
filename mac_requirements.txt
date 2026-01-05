@@ -1,0 +1,12 @@
+# Core JAX stack (Pinned for Metal compatibility)
+jax==0.4.35
+jaxlib==0.4.35
+jax-metal==0.1.1
+
+# Neural Network & Optimization (Compatible with JAX 0.4.35)
+flax==0.8.5
+optax==0.2.2
+
+# Utilities & Game Engine
+pgx==2.6.0
+tqdm==4.67.1

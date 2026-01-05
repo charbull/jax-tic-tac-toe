@@ -1,6 +1,6 @@
 import dataclasses
 from typing import NamedTuple
-
+from functools import partial
 import jax
 import jax.numpy as jnp
 import optax
@@ -32,6 +32,7 @@ class HParams:
     n_train_steps: int = 2500
     tau: float = 0.005
     warm_up_steps: int = 128
+jax.tree_util.register_pytree_node(HParams, lambda x: ((), x), lambda x, _: x)
 
 
 @dataclasses.dataclass
@@ -40,7 +41,7 @@ class TrainState:
 
     policy_net: nnx.Module
     target_net: nnx.Module
-    optimizer: nnx.training.optimizer.Optimizer
+    optimizer: nnx.Optimizer
     rng_key: jax.Array
     cur_step: int = 0
 
@@ -97,7 +98,7 @@ class DQN(nnx.Module):
         return nnx.tanh(self.linear3(x))
 
 
-@jax.jit
+@nnx.jit
 def act_randomly(rng, state):
     """Select a single valid action from a uniform distribution."""
     probs = state.legal_action_mask / state.legal_action_mask.sum()
@@ -126,7 +127,7 @@ def sample_action_eps_greedy(
     return best_actions * eps_mask + random_actions * (1 - eps_mask)
 
 
-@jax.jit
+@nnx.jit
 def select_best_action(state: pgx.State, policy_net: DQN):
     """Choose the best action according to `policy_net`."""
     logits = policy_net(state.observation)
@@ -166,7 +167,7 @@ def loss_fn(policy_net, next_state_values, state, action):
     return (loss * mask).mean()
 
 
-@nnx.jit(static_argnames='hparams')
+@partial(nnx.jit, static_argnames='hparams')
 def train_step(
     policy_net, target_net, optimizer, transition, hparams
 ):
@@ -198,7 +199,7 @@ def train_step(
 
     grad_fn = nnx.value_and_grad(loss_fn)
     loss, grads = grad_fn(policy_net, next_state_values, state, action)
-    optimizer.update(policy_net, grads)
+    optimizer.update(grads)
 
     _, policy_params = nnx.split(policy_net)
     _, target_params = nnx.split(target_net)
