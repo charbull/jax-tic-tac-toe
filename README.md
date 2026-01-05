@@ -1,5 +1,7 @@
 # Learning to play Tic-Tac-Toe in Jax
 
+* https://joe-antognini.github.io/ml/jax-tic-tac-toe
+
 This is a minimal setup to train a neural network to play Tic-Tac-Toe using
 reinforcement learning.  The model learns perfect play in about 15 seconds or
 so.
