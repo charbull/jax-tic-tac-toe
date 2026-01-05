@@ -43,7 +43,7 @@ like this:
 
 ![Tic-Tac-Toe with perfect play](perfect_play.svg)
 
-## MacOS
+## MacOS on GPU
 ```sh
 python -m venv venv
 source venv/bin/activate
